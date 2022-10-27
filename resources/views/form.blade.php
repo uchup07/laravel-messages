@@ -20,7 +20,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('subject') ? ' has-error' : '' }}">
-	<label for="subject" class="control-label">@lang('laravel-messages::strings.form.subject')</label>
+	<label for="subject" class="control-label">@lang('laravel-messages::la-strings.form.subject')</label>
 	<input type="text" id="subject" name="subject" class="form-control" value="{{ old('subject') }}" required>
 	@if ($errors->has('subject'))
 		<span class="help-block">
@@ -30,7 +30,7 @@
 </div>
 
 <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
-	<label for="body" class="control-label">@lang('laravel-messages::strings.form.body')</label>
+	<label for="body" class="control-label">@lang('laravel-messages::la-strings.form.body')</label>
 	<textarea id="body" name="body" class="form-control" rows="6" required>{{ old('body') }}</textarea>
 	@if ($errors->has('body'))
 		<span class="help-block">

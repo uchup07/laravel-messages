@@ -36,7 +36,7 @@
 	</style>
 </head>
 <body>
-@include('inbox::layouts.partials.navbar')
+@include('laravel-messages::layouts.partials.navbar')
 <div class="container-fluid">
 
 	{{--
@@ -91,7 +91,7 @@
 	--}}
 	<div class="row">
 		<div class="col-sm-3 col-md-2">
-			@include('inbox::layouts.partials.sidebar')
+			@include('laravel-messages::layouts.partials.sidebar')
 		</div>
 		<div class="col-sm-9 col-md-10">
 			<!-- Nav tabs -->

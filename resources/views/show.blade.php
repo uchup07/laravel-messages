@@ -23,7 +23,7 @@
 		@csrf
 
 		<div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
-			<label for="body" class="control-label">@lang('laravel-messages::strings.form.body')</label>
+			<label for="body" class="control-label">@lang('laravel-messages::la-strings.form.body')</label>
 			<textarea id="body" name="body" class="form-control" rows="6" required>{{ old('body') }}</textarea>
 			@if ($errors->has('body'))
 				<span class="help-block">
@@ -33,7 +33,7 @@
 		</div>
 
 		<div class="clearfix">
-			<button type="submit" class="btn btn-success">@lang('laravel-messages::strings.form.send')</button>
+			<button type="submit" class="btn btn-success">@lang('laravel-messages::la-strings.form.send')</button>
 		</div>
 	</form>
 @stop
