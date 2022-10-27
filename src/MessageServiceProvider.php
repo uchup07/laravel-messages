@@ -87,9 +87,9 @@ class MessageServiceProvider extends ServiceProvider
                 __DIR__.'/../config/laravel-messages.php' => config_path('laravel-messages.php'),
             ], 'messages-config');
 
-//            $this->publishes([
-//                __DIR__ . '/../database/migrations' => database_path('migrations'),
-//            ], 'messages-migrations');
+            $this->publishes([
+                __DIR__ . '/../database/migrations' => database_path('migrations'),
+            ], 'messages-migrations');
 
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-messages'),
