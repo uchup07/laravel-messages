@@ -1,0 +1,38 @@
+{
+  "name": "uchup07/laravel-messages",
+  "description": "Laravel messages and inbox system",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "inbox",
+    "messages",
+    "users",
+    "messenger"
+  ],
+  "authors": [
+    {
+      "name": "Yusuf Mulhajat",
+      "email": "uchup07@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "illuminate/support": "8.*|9.*",
+    "nesbot/carbon": "2.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Uchup07\\Messages\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Uchup07\\Messages\\MessageServiceProvider"
+      ],
+      "aliases": {
+        "LaravelMessage": "Uchup07\\Messages\\LaravelMessageFacade"
+      }
+    }
+  }
+}
