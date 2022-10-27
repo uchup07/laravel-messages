@@ -7,7 +7,7 @@ use Uchup07\Messages\Events\NewMessageDispatched;
 use Uchup07\Messages\Events\NewReplyDispatched;
 use Uchup07\Messages\Models\Thread;
 
-trait HasInbox
+trait HasMessage
 {
     protected $subject, $message;
     protected $recipients = [];
