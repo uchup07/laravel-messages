@@ -96,7 +96,7 @@ class MessageServiceProvider extends ServiceProvider
             ], 'messages-views');
 
             $this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/laravel-messages'),
+                __DIR__.'/../resources/lang' => $this->app->langPath('vendor/laravel-messages'),
             ], 'messages-translations');
         }
     }
