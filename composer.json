@@ -23,7 +23,10 @@
   "autoload": {
     "psr-4": {
       "Uchup07\\Messages\\": "src/"
-    }
+    },
+    "files": [
+      "src/helpers.php"
+    ]
   },
   "extra": {
     "laravel": {
