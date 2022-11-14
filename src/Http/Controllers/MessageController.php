@@ -58,13 +58,13 @@ class MessageController extends Controller
         $request->validate([
             'subject' => 'required',
             'body' => 'required',
-            'recipients' => 'required|array',
+            'recipients' => 'required',
         ]);
 
         $thread = auth()->user()
             ->subject($request->subject)
             ->writes($request->body)
-            ->to($request->recipients)
+            ->to(json_decode($request->recipients))
             ->send();
 
         return redirect()
