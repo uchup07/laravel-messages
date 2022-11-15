@@ -4,6 +4,8 @@ namespace Uchup07\Messages\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Uchup07\Messages\Models\Participant;
 use Uchup07\Messages\Models\Thread;
 class MessageController extends Controller
@@ -61,18 +63,39 @@ class MessageController extends Controller
             'recipients' => 'required',
         ]);
 
-        $thread = auth()->user()
-            ->subject($request->subject)
-            ->writes($request->body)
-            ->to(json_decode($request->recipients))
-            ->send();
+        try {
+            DB::beginTransaction();
 
-        return redirect()
-            ->route(config('laravel-messages.route.name') . 'message.index')
-            ->with('message', [
-                'type' => $thread ? 'success' : 'error',
-                'text' => $thread ? trans('laravel-messages::messages.thread.sent') : trans('laravel-messages::messages.thread.whoops'),
-            ]);
+            $recipients = is_string($request->recipients) ? explode(',', $request->recipients) : json_decode($request->recipients);
+
+            $thread = auth()->user()
+                ->subject($request->subject)
+                ->writes($request->body)
+                ->to($recipients)
+                ->send();
+
+            DB::commit();
+
+            return redirect()
+                ->route(config('laravel-messages.route.name') . 'message.index')
+                ->with('message', [
+                    'type' => $thread ? 'success' : 'error',
+                    'text' => $thread ? trans('laravel-messages::messages.thread.sent') : trans('laravel-messages::messages.thread.whoops'),
+                ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $messages = $e->getMessage();
+            Log::error($e->getTraceAsString());
+
+            return redirect()
+                ->route(config('laravel-messages.route.name') . 'message.index')
+                ->with('message', [
+                    'type' => 'error',
+                    'text' => $messages,
+                ]);
+        }
+
     }
 
     /**

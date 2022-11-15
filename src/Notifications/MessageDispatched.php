@@ -38,7 +38,8 @@ class MessageDispatched extends Notification
     public function via($notifiable)
     {
         return config('laravel-messages.notifications.via', [
-            'mail'
+            'mail',
+            'array'
         ]);
     }
 
@@ -90,9 +91,9 @@ class MessageDispatched extends Notification
 
         return (new MailMessage)
             ->success()
-            ->subject($this->message->user->name . ' ' . trans('laravel-messages::messages.notification.subject') . ' - ' . config('app.name'))
+            ->subject($this->message->user->name . ' ' . trans('laravel-messages::la-messages.notification.subject') . ' - ' . config('app.name'))
             ->greeting($greeting)
-            ->line($this->message->body)
-            ->action(trans('laravel-messages::messages.notification.button'), $buttonUrl);
+            ->html($this->message->body)
+            ->action(trans('laravel-messages::la-messages.notification.button'), $buttonUrl);
     }
 }
