@@ -143,16 +143,37 @@ class MessageController extends Controller
             'body' => 'required',
         ]);
 
-        $message = auth()->user()
-            ->writes($request->body)
-            ->reply($thread);
+        $message = '';
 
-        return redirect()
-            ->route(config('laravel-messages.route.name') . 'message.show', $thread)
-            ->with('message', [
-                'type' => $message ? 'success' : 'error',
-                'text' => $message ? trans('laravel-messages::messages.message.sent') : trans('laravel-messages::messages.message.whoops'),
-            ]);
+        try {
+            DB::beginTransaction();
+
+            $message = auth()->user()
+                ->writes($request->body)
+                ->reply($thread);
+
+            DB::commit();
+
+            return redirect()
+                ->route(config('laravel-messages.route.name') . 'message.show', $thread)
+                ->with('message', [
+                    'type' => $message ? 'success' : 'error',
+                    'text' => $message ? trans('laravel-messages::messages.message.sent') : trans('laravel-messages::messages.message.whoops'),
+                ]);
+
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $messages = $e->getMessage();
+            Log::error($e->getTraceAsString());
+
+            return redirect()
+                ->route(config('laravel-messages.route.name') . 'message.index')
+                ->with('message', [
+                    'type' => 'error',
+                    'text' => $messages,
+                ]);
+        }
     }
 
     /**
