@@ -31,6 +31,7 @@ return [
         'threads' => 'threads',
         'messages' => 'messages',
         'participants' => 'participants',
+        'attachments' => 'attachments',
     ],
 
     /*
@@ -46,6 +47,7 @@ return [
         'thread' => Uchup07\Messages\Models\Thread::class,
         'message' => Uchup07\Messages\Models\Message::class,
         'participant' => Uchup07\Messages\Models\Participant::class,
+        'attachment' => Uchup07\Messages\Models\Attachment::class,
     ],
 
     /*
