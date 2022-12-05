@@ -30,6 +30,6 @@ class CreateThreadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('threads');
+        Schema::dropIfExists(config('laravel-messages.tables.threads','threads'));
     }
 }
