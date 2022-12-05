@@ -51,6 +51,32 @@ class Message extends Model
     }
 
     /**
+     * Messages relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attachments()
+    {
+        return $this->hasMany(config('laravel-messages.models.attachment'));
+    }
+
+    public function addAttachments(array $attachments)
+    {
+        if (count($attachments)) {
+            $attachmentClass = config('laravel-messages.models.attachment');
+            foreach ($attachments as $attachment) {
+                $attch = $attachmentClass::firstOrCreate([
+                    'message_id' => $this->id,
+                    'title' => $attachment['title'],
+                    'file' => $attachment['file'],
+                ]);
+
+                $attch->save();
+            }
+        }
+    }
+
+    /**
      * User relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
