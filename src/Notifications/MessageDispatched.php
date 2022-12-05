@@ -79,6 +79,8 @@ class MessageDispatched extends Notification implements ShouldQueue
             'url' => route(config('laravel-messages.route.name') . 'message.show', $this->thread),
             'message' => $this->thread->subject,
             'icon' => 'communication/com002.svg',
+            'thread_id' => $this->thread->id,
+            'message_id' => $this->message->id,
             'isReply' => $this->thread->messages()->count() >= 2,
         ];
     }
@@ -92,6 +94,8 @@ class MessageDispatched extends Notification implements ShouldQueue
             'url' => route(config('laravel-messages.route.name') . 'message.show', $this->thread),
             'message' => $this->thread->subject,
             'icon' => 'communication/com002.svg',
+            'thread_id' => $this->thread->id,
+            'message_id' => $this->message->id,
             'isReply' => $this->thread->messages()->count() >= 2,
         ]);
     }
