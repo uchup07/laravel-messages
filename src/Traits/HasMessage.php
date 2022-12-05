@@ -11,8 +11,9 @@ trait HasMessage
 {
     protected $subject, $message;
     protected $recipients = [];
-    protected $threadsTable, $messagesTable, $participantsTable;
-    protected $threadClass, $participantClass;
+    protected $attachments = [];
+    protected $threadsTable, $messagesTable, $participantsTable, $attachmentsTable;
+    protected $threadClass, $participantClass, $attachmentClass;
 
     /**
      * Create a new Eloquent model instance.
@@ -26,9 +27,11 @@ trait HasMessage
         $this->threadsTable = config('laravel-messages.tables.threads');
         $this->messagesTable = config('laravel-messages.tables.messages');
         $this->participantsTable = config('laravel-messages.tables.participants');
+        $this->attachmentsTable = config('laravel-messages.tables.attachments');
 
         $this->threadClass = config('laravel-messages.models.thread');
         $this->participantClass = config('laravel-messages.models.participant');
+        $this->attachmentClass = config('laravel-messages.models.attachment');
 
         parent::__construct($attributes);
     }
@@ -43,6 +46,17 @@ trait HasMessage
     public function writes($message)
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function attachments($attachments)
+    {
+        if (is_array($attachments)) {
+            $this->attachments = array_merge($this->attachments, $attachments);
+        } else {
+            $this->attachments[] = $attachments;
+        }
 
         return $this;
     }
@@ -87,6 +101,15 @@ trait HasMessage
         if (count($this->recipients)) {
             $thread->addParticipants($this->recipients);
         }
+
+        // Attachment
+        $attachmentClass = $this->attachmentClass;
+        $attachmentClass::create([
+            'user_id' => $this->id,
+            'message_id' => $message->id,
+            'title' => '',
+            'file' => ''
+        ]);
 
         if ($thread) {
             event(new NewMessageDispatched($thread, $message));
