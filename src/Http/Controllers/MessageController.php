@@ -109,6 +109,19 @@ class MessageController extends Controller
     {
         $threadClass = $this->threadClass;
         $thread = $threadClass::findOrFail($thread);
+        $previous = $threadClass::where('id', '<', $thread->id)->latest()->first();
+        $next = $threadClass::where('id', '>', $thread->id)->oldest()->first();
+
+        $currentPage = 1;
+
+        $threads = $threadClass::latest()->get();
+        $totalThread = $threads->count();
+
+        for($i=0;$i < $totalThread; $i++) {
+            if($threads[$i]->id == $thread->id) {
+                $currentPage = $currentPage + $i;
+            }
+        }
 
         $messages = $thread->messages()->get();
 
@@ -123,7 +136,7 @@ class MessageController extends Controller
             return abort(404);
         }
 
-        return view('laravel-messages::show', compact('messages', 'thread'));
+        return view('laravel-messages::show', compact('messages', 'thread','previous','next','totalThread','currentPage'));
     }
 
     /**
