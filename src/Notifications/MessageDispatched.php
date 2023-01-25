@@ -2,7 +2,9 @@
 
 namespace Uchup07\Messages\Notifications;
 
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -29,6 +31,14 @@ class MessageDispatched extends Notification implements ShouldQueue
         $this->thread = $thread;
         $this->message = $message;
         $this->participant = $participant;
+    }
+
+    public function broadcastOn()
+    {
+        if($this->participant->id !== auth()->user()->id) {
+            return new PrivateChannel('App.Models.User.' . $this->participant->id);
+        }
+
     }
 
     /**
